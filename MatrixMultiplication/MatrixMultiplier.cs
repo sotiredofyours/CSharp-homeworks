@@ -1,8 +1,17 @@
 ﻿namespace MatrixMultiplication;
 
+/// <summary>
+/// A class for multiplying matrices.
+/// </summary>
 public static class MatrixMultiplier
 {
-    public static Matrix ConsistentMultiplication(Matrix left, Matrix right)
+    /// <summary>
+    /// Sequential multiplication of matrix.
+    /// </summary>
+    /// <param name="left">First of matrix for a multiplication.</param>
+    /// <param name="right">Second of matrix to multiplication.</param>
+    /// <returns>Result of multiplication</returns>
+    public static Matrix SequentialMultiplication(Matrix left, Matrix right)
     {
         if (left.Columns != right.Rows)
         {
@@ -20,7 +29,13 @@ public static class MatrixMultiplier
 
         return new Matrix(resultMatrix);
     }
-
+    
+    /// <summary>
+    /// Parallel multiplication of matrix.
+    /// </summary>
+    /// <param name="left">First of matrix for a multiplication.</param>
+    /// <param name="right">Second of matrix to multiplication.</param>
+    /// <returns>Result of multiplication</returns>
     public static Matrix ParallelMultiplication(Matrix left, Matrix right)
     {
         if (left.Columns != right.Rows)
@@ -29,8 +44,8 @@ public static class MatrixMultiplier
         }
 
         var resultMatrix = new int[left.Rows, right.Columns];
-        var threads = new Thread[Environment.ProcessorCount * 2];
-        var chunkSize = Math.Max(left.Rows / threads.Length, left.Rows );
+        var threads = new Thread[Environment.ProcessorCount];
+        var chunkSize = Math.Max(1, left.Rows / threads.Length);
         
         for (int i = 0; i < threads.Length; i++)
         {

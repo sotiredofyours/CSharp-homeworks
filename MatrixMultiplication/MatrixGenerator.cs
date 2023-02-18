@@ -1,7 +1,16 @@
 ﻿namespace MatrixMultiplication;
 
+/// <summary>
+/// A class for generating matrices.
+/// </summary>
 public class MatrixGenerator
 {
+    /// <summary>
+    /// Generate matrix with random values.
+    /// </summary>
+    /// <param name="rows">Number of rows.</param>
+    /// <param name="columns">Number of columns.</param>
+    /// <returns></returns>
     public static Matrix GenerateMatrix(int rows, int columns)
     {
         var rnd = new Random();
@@ -16,7 +25,13 @@ public class MatrixGenerator
 
         return new Matrix(matrix);
     }
-
+    
+    /// <summary>
+    /// Generate and write matrix in file
+    /// </summary>
+    /// <param name="filename">Name of file.</param>
+    /// <param name="rows">Number of rows.</param>
+    /// <param name="columns">Number of columns.</param>
     public static void GenerateMatrixInFile(string filename, int rows, int columns)
     {
         var rnd = new Random();

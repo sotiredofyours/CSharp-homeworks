@@ -2,26 +2,50 @@
 
 public class Matrix
 {
+    /// <summary>
+    /// Number of columns in matrix.
+    /// </summary>
     public int Columns => _matrix.GetLength(1);
+    /// <summary>
+    /// Number of rows in matrix.
+    /// </summary>
     public int Rows => _matrix.GetLength(0);
     
     private readonly int[,] _matrix;
     
+    /// <summary>
+    /// Create matrix from file.
+    /// </summary>
+    /// <param name="path"></param>
     public Matrix(string path)
     {
         _matrix = ReadMatrixFromFile(path);
     }
+    
+    /// <summary>
+    /// Creates matrix with a specified number of rows and columns.
+    /// </summary>
+    /// <param name="rows">Number of rows.</param>
+    /// <param name="columns">Number of rows</param>
+    public Matrix(int rows, int columns)
+    {
+        _matrix = new int[rows, columns];
+    }
 
-    public Matrix(int[,] matrix)
+    /// <summary>
+    /// Creates matrix from given array.
+    /// </summary>
+    /// <param name="array">Array with values.</param>
+    public Matrix(int[,] array)
     { 
-        var rows = matrix.GetLength(0);
-        var columns = matrix.GetLength(1);
+        var rows = array.GetLength(0);
+        var columns = array.GetLength(1);
         _matrix = new int[rows, columns];
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < columns; j++)
             {
-                _matrix[i, j] = matrix[i, j];
+                _matrix[i, j] = array[i, j];
             }
         }
     }

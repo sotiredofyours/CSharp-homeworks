@@ -23,11 +23,11 @@ public class MatrixMultiplicationTests
         var matrix2 = new Matrix(array2);
         var expected = new Matrix(expectedArray);
         
-        var consistent = MatrixMultiplier.ConsistentMultiplication(matrix1, matrix2);
+        var sequential = MatrixMultiplier.SequentialMultiplication(matrix1, matrix2);
         var parallel =  MatrixMultiplier.ParallelMultiplication(matrix1, matrix2);
         
         Assert.AreEqual(expected, parallel);
-        Assert.AreEqual(expected, consistent);
+        Assert.AreEqual(expected, sequential);
     }
     
     [Test]
@@ -41,11 +41,11 @@ public class MatrixMultiplicationTests
         var matrix2 = new Matrix(array2);
         var expected = new Matrix(expectedArray);
         
-        var consistent = MatrixMultiplier.ConsistentMultiplication(matrix1, matrix2);
+        var sequential = MatrixMultiplier.SequentialMultiplication(matrix1, matrix2);
         var parallel =  MatrixMultiplier.ParallelMultiplication(matrix1, matrix2);
         
         Assert.AreEqual(expected, parallel);
-        Assert.AreEqual(expected, consistent);
+        Assert.AreEqual(expected, sequential);
     }
     
     [Test]
@@ -59,7 +59,7 @@ public class MatrixMultiplicationTests
         var matrix2 = new Matrix(array2);
         var expected = new Matrix(expectedArray);
         
-        var consistent = MatrixMultiplier.ConsistentMultiplication(matrix1, matrix2);
+        var consistent = MatrixMultiplier.SequentialMultiplication(matrix1, matrix2);
         var parallel =  MatrixMultiplier.ParallelMultiplication(matrix1, matrix2);
         
         Assert.AreEqual(expected, parallel);
