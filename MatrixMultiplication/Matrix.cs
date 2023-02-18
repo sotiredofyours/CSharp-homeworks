@@ -2,33 +2,55 @@
 
 public class Matrix
 {
-    private readonly int _rows;
-    private readonly int _columns; 
+    public int Columns => _matrix.GetLength(1);
+    public int Rows => _matrix.GetLength(0);
+    
     private readonly int[,] _matrix;
-
+    
     public Matrix(string path)
     {
         _matrix = ReadMatrixFromFile(path);
-        _rows = _matrix.GetLength(0);
-        _columns = _matrix.GetLength(1);
     }
 
     public Matrix(int[,] matrix)
     { 
-        _rows = matrix.GetLength(0);
-        _columns = matrix.GetLength(1);
-        for (int i = 0; i < _rows; i++)
+        var rows = matrix.GetLength(0);
+        var columns = matrix.GetLength(1);
+        _matrix = new int[rows, columns];
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < _columns; j++)
+            for (int j = 0; j < columns; j++)
             {
                 _matrix[i, j] = matrix[i, j];
             }
         }
     }
 
-    public int Rows => _rows;
-    public int Columns => _columns;
-    public int[,] GetMatrix => _matrix;
+    public int this[int row, int column]
+    {
+        get => _matrix[row, column];
+        set => _matrix[row, column] = value;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null || obj.GetType() != GetType()) 
+            return false;
+        
+        var other = (Matrix) obj;
+        if (Rows != other.Rows || Columns != other.Columns)
+            return false;
+        
+        for (int i = 0; i < Rows; i++)
+        {
+            for (int j = 0; j < Columns; j++)
+            {
+                if (this[i, j] != other[i, j]) return false;
+            }
+        }
+
+        return true;
+    }
 
     private int[,] ReadMatrixFromFile(string path)
     {
@@ -37,6 +59,7 @@ public class Matrix
         var numberOfRows = text.Count();
         using var linesEnumerator = text.GetEnumerator();
         linesEnumerator.MoveNext();
+        if (linesEnumerator.Current == null) return new int[0, 0];
         var numberOfColumns = linesEnumerator.Current.Split().Length;
         var resultMatrix = new int[numberOfRows, numberOfColumns];
         
@@ -58,14 +81,14 @@ public class Matrix
     private void WriteMatrixInFile(string path)
     {
         using var writer = new StreamWriter(path);
-        for (int row = 0; row < _rows; row++)
+        for (int row = 0; row < Rows; row++)
         {
-            for (int column = 0; column < _columns; column++)
+            for (int column = 0; column < Columns; column++)
             {
-                writer.Write(_matrix[row,column] + (column == _columns-1 ? string.Empty : " "));
+                writer.Write(_matrix[row,column] + (column == Columns-1 ? string.Empty : " "));
             }
 
-            if (row != _rows - 1) writer.WriteLine();
+            if (row != Rows - 1) writer.WriteLine();
         }
     }
 }
