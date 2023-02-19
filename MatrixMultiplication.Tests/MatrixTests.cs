@@ -35,11 +35,11 @@ public class MatrixTests
     [Test]
     public void MatrixFromArrayTest()
     {
-        var array = new int[1, 1] { { 0 } };
-        var matrix = new Matrix(array);
+        var expected = new int[1, 1] { { 0 } };
+        var matrix = new Matrix(expected);
 
-        array[0, 0] = -1;
-        Assert.AreNotEqual(array[0, 0], matrix[0, 0]);
+        expected[0, 0] = -1;
+        Assert.AreNotEqual(expected[0, 0], matrix[0, 0]);
     }
     
     [Test]
