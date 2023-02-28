@@ -2,15 +2,17 @@
 
 public class ThreadSafetyLazy<T> : ILazy<T>
 {
-    private T result; 
+    private T? result; 
     private Func<T> supplier;
-    private bool isCalculated;
+    private volatile bool isCalculated;
 
     private readonly object lockObj = new();
 
     public ThreadSafetyLazy(Func<T> supplier) => this.supplier = supplier;
-    public T Get()
+    public T? Get()
     {
+        if (isCalculated) 
+            return result; 
         lock (lockObj)
         {
             if (isCalculated) 
