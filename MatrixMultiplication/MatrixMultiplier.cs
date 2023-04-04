@@ -75,6 +75,41 @@ public static class MatrixMultiplier
         return new Matrix(resultMatrix);
     }
 
+    public static Matrix ParallelWithTasks(Matrix left, Matrix right)
+    {
+        if (left.Columns != right.Rows)
+        {
+            throw new ArithmeticException("Can`t multiply this matrix!");
+        }
+
+        var tasks = new Task[Environment.ProcessorCount];
+        var resultMatrix = new int[left.Rows, right.Columns];
+        var chunkSize = Math.Max(1, left.Rows / tasks.Length);
+        
+        for (int i = 0; i < tasks.Length; i++)
+        {
+            var localI = i; 
+            tasks[i] = new Task(() =>
+            {
+                for (int rows = localI * chunkSize; rows < (localI + 1) * chunkSize && rows < left.Rows; ++rows)
+                {
+                    for (int columns = 0; columns < right.Columns; columns++)
+                    {
+                        resultMatrix[rows, columns] = DotProduct(left, right, rows, columns);
+                    }
+                }
+            });
+        }
+
+        foreach (var task in tasks)
+        {
+            task.Start();
+        }
+
+        Task.WaitAll(tasks);
+        return new Matrix(resultMatrix);
+    }
+    
     private static int DotProduct(Matrix left, Matrix right, int row, int column)
     {
         var sum = 0;
